@@ -15,26 +15,26 @@ const Frame* Smiley::getNextFrame() {
 
 	}
 
-	picture_1.m_face[1][9].r = 0;
-	picture_1.m_face[1][10].r = 0;
-	picture_1.m_face[1][11].r = 0;
+	picture_1.m_face[1][9].r = 50;
+	picture_1.m_face[1][10].r = 50;
+	picture_1.m_face[1][11].r = 50;
 	picture_1.m_face[1][9].g = 0;
 	picture_1.m_face[1][10].g = 0;
 	picture_1.m_face[1][11].g = 0;
 	
-	picture_1.m_face[4][9].r = 0;
-	picture_1.m_face[4][10].r = 0;
-	picture_1.m_face[4][11].r = 0;
+	picture_1.m_face[4][9].r = 50;
+	picture_1.m_face[4][10].r = 50;
+	picture_1.m_face[4][11].r = 50;
 	picture_1.m_face[4][9].g = 0;
 	picture_1.m_face[4][10].g = 0;
 	picture_1.m_face[4][11].g = 0;
 		
-	picture_1.m_face[0][4].r = 0;
-	picture_1.m_face[1][3].r = 0;
-	picture_1.m_face[2][2].r = 0;
-	picture_1.m_face[3][2].r = 0;
-	picture_1.m_face[4][3].r = 0;
-	picture_1.m_face[5][4].r = 0;
+	picture_1.m_face[0][4].r = 50;
+	picture_1.m_face[1][3].r = 50;
+	picture_1.m_face[2][2].r = 50;
+	picture_1.m_face[3][2].r = 50;
+	picture_1.m_face[4][3].r = 50;
+	picture_1.m_face[5][4].r = 50;
 	picture_1.m_face[0][4].g = 0;
 	picture_1.m_face[1][3].g = 0;
 	picture_1.m_face[2][2].g = 0;
