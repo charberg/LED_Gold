@@ -61,6 +61,10 @@ typedef struct {
 	size_t frame_size;
 } ledscape_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern ledscape_t *
 ledscape_init(
 	unsigned num_pixels
@@ -113,4 +117,7 @@ ledscape_close(
 
 extern const char* ledscape_output_mode_to_string(ledscape_output_mode_t mode);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

@@ -48,7 +48,7 @@ LDLIBS += \
 	  -lbone \
 	  -lpthread \
 
-COMPILE.cpp = $(CROSS_COMPILE)g++ $(CFLAGS) -c -o $@ $<
+COMPILE.cpp = $(CROSS_COMPILE)g++ $(CFLAGS) -std=c++11 -c -o $@ $<
 COMPILE.o = $(CROSS_COMPILE)gcc -std=c99 $(CFLAGS) -c -o $@ $<
 COMPILE.a = ar cr $@
 COMPILE.link = $(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $^ $(LDLIBS)
@@ -97,7 +97,9 @@ rgb-test:
 helmet:
 	g++ -o $@ $< $(LDFLAGS) -ledscape $(LDLIBS)
 
-
+SHOWTIMEOBJS = showtime.o helmet_draw.o smiley.o
+showtime: $(SHOWTIMEOBJS) $(LEDSCAPE_LIB)
+	g++ -o $@ $(LDFLAGS) $(SHOWTIMEOBJS) -ledscape $(LDLIBS)
 
 
 .PHONY: clean
