@@ -3,7 +3,7 @@
 # The top level targets link in the two .o files for now.
 #
 TARGETS += rgb-test
-TARGETS += chuck-test
+TARGETS += helmet
 
 LEDSCAPE_OBJS = ledscape.o pru.o util.o lib/cesanta/frozen.o lib/cesanta/mongoose.o
 LEDSCAPE_LIB := libedscape.a  # Looks better as '-ledscape' than '-lledscape' :-)
@@ -94,7 +94,7 @@ $(LEDSCAPE_LIB): $(LEDSCAPE_OBJS)
 rgb-test:
 	$(COMPILE.link)
 
-chuck-test:
+helmet:
 	g++ -o $@ $< $(LDFLAGS) -ledscape $(LDLIBS)
 
 
@@ -106,7 +106,7 @@ clean:
 	rm -rf \
 		*.o *.a \
 		*.i \
-		.*.o.d \
+		.*.swo .*.swp .*.o.d \
 		*~ \
 		$(INCDIR_APP_LOADER)/*~ \
 		$(TARGETS) \
