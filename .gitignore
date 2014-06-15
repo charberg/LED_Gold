@@ -6,13 +6,12 @@
 *.bin
 pcb/*.b[^r][^d]
 pcb/*.p[^c][^b]
-rgb-test
 am335x/pasm/pasm
 .*.d
 *~
 *~
 a.out
-fade-test
+*-test
 fire
 udp-rx
 opc-rx

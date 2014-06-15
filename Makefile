@@ -3,14 +3,12 @@
 # The top level targets link in the two .o files for now.
 #
 TARGETS += rgb-test
-TARGETS += udp-rx
-TARGETS += opc-rx
-TARGETS += opc-server
+TARGETS += chuck-test
 
 LEDSCAPE_OBJS = ledscape.o pru.o util.o lib/cesanta/frozen.o lib/cesanta/mongoose.o
-LEDSCAPE_LIB := libledscape.a
+LEDSCAPE_LIB := libedscape.a  # Looks better as '-ledscape' than '-lledscape' :-)
 
-all: $(TARGETS) dmx_0.bin ws2801_0.bin ws2801_1.bin ws281x_0.bin ws281x_1.bin
+all: $(LEDSCAPE_LIB) $(TARGETS) dmx_0.bin ws2801_0.bin ws2801_1.bin ws281x_0.bin ws281x_1.bin
 
 
 ifeq ($(shell uname -m),armv7l)
@@ -28,13 +26,13 @@ export CROSS_COMPILE?=arm-linux-gnueabi-
 endif
 
 CFLAGS += \
-	-std=c99 \
 	-W \
 	-Wall \
 	-D_BSD_SOURCE \
 	-Wp,-MMD,$(dir $@).$(notdir $@).d \
 	-Wp,-MT,$@ \
 	-I. \
+	-I/usr/bonelib/include \
 	-O2 \
 	-lm \
 	-mtune=cortex-a8 \
@@ -43,14 +41,17 @@ CFLAGS += \
 	-DNS_ENABLE_IPV6
 
 LDFLAGS += \
+	   -L. \
+	   -L/usr/bonelib/lib \
 
 LDLIBS += \
-	-lpthread \
+	  -lbone \
+	  -lpthread \
 
-COMPILE.o = $(CROSS_COMPILE)gcc $(CFLAGS) -c -o $@ $<
-COMPILE.a = $(CROSS_COMPILE)gcc -c -o $@ $<
+COMPILE.cpp = $(CROSS_COMPILE)g++ $(CFLAGS) -c -o $@ $<
+COMPILE.o = $(CROSS_COMPILE)gcc -std=c99 $(CFLAGS) -c -o $@ $<
+COMPILE.a = ar cr $@
 COMPILE.link = $(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $^ $(LDLIBS)
-
 
 #####
 #
@@ -81,17 +82,29 @@ PASM := $(PASM_DIR)/pasm
 %.o: %.c
 	$(COMPILE.o)
 
+%.o: %.cpp
+	$(COMPILE.cpp)
+
 $(foreach O,$(TARGETS),$(eval $O: $O.o $(LEDSCAPE_OBJS) $(APP_LOADER_LIB)))
 
-$(TARGETS):
+
+$(LEDSCAPE_LIB): $(LEDSCAPE_OBJS)
+	$(COMPILE.a) $(LEDSCAPE_OBJS)
+
+rgb-test:
 	$(COMPILE.link)
+
+chuck-test:
+	g++ -o $@ $< $(LDFLAGS) -ledscape $(LDLIBS)
+
+
 
 
 .PHONY: clean
 
 clean:
 	rm -rf \
-		*.o \
+		*.o *.a \
 		*.i \
 		.*.o.d \
 		*~ \
