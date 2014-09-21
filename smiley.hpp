@@ -1,3 +1,6 @@
+#ifndef SMILEY__HPP
+#define SMILEY__HPP
+
 #include "animation.hpp"
 
 class Smiley : public Animation {
@@ -12,3 +15,5 @@ class Smiley : public Animation {
        		const Frame* getNextFrame();
 
 };
+
+#endif

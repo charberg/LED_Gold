@@ -7,6 +7,7 @@ class Scanner:public Animation {
 
 	private:
 		Frame picture_1;
+		int y = 1;
 
 	public:
 		Scanner();

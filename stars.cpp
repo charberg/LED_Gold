@@ -5,7 +5,7 @@
 
 Stars::Stars() {
 
-	picture_1.delay = 10;
+	picture_1.delay = 1;
 
 }
 

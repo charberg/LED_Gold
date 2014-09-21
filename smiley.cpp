@@ -1,7 +1,6 @@
 #include "smiley.hpp"
 #include <stdio.h>
 
-
 const Frame* Smiley::getNextFrame() {
 
 	for(int i = 0; i < mainLength; i++) {
@@ -44,28 +43,21 @@ const Frame* Smiley::getNextFrame() {
 
 	for(int i = 0; i < sideLength; i++) {
 
-		for(int j = 0; j < sideHeight; j++) {
-
-			picture_2.m_side[i][j].r = 30;
-			picture_2.m_side[i][j].g = 76;
-			picture_2.m_side[i][j].b = 58;
-		}
-
+		picture_1.m_side[i][0].r = 255;
+		picture_1.m_side[i][1].r = 255;
+		picture_1.m_side[i][1].g = 127;
+		picture_1.m_side[i][2].r = 255;
+		picture_1.m_side[i][2].g = 255;
+		picture_1.m_side[i][3].g = 255;
+		picture_1.m_side[i][4].b = 255;
+		picture_1.m_side[i][5].r = 75;
+		picture_1.m_side[i][5].b = 130;
+		picture_1.m_side[i][6].r = 143;
+		picture_1.m_side[i][6].b = 255;
 	}
 
-	frameCount++;
+	picture_1.delay = 0;
 
-	if(frameCount%2 == 0) {
-		return &picture_1;
-	}
-
-	else {
-		
-		return &picture_2;
-
-	}
-
-	return NULL;	
-
+	return &picture_1;
 	
 }	

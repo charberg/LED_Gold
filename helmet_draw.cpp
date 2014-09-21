@@ -2,7 +2,17 @@
 #include "bonelib/kbdio.hpp"
 //Animation include files//
 #include "smiley.hpp"
-
+#include "blank.hpp"
+#include "fullColor.hpp"
+#include "colorSquare.hpp"
+#include "colorSquareRapid.hpp"
+#include "scanner.hpp"
+#include "pinwheel.hpp"
+#include "upvote.hpp"
+#include "stars.hpp"
+#include "rainbowWheel.hpp"
+#include "stringScroll.hpp"
+#include "goCountDown.hpp"
 
 static unsigned int use_frame = 0;
 static ledscape_frame_t *frame[2];
@@ -14,12 +24,12 @@ void draw(const Frame* picture) {
 	int counter = 0;
 
 
-	for(int i = 0; i < sideLength; i++) {
-		for(int j = 0; j < sideHeight; j++) {
+	for(int i = 0; i < sideHeight; i++) {
+		for(int j = 0; j < sideLength; j++) {
 
-			ledscape_set_color(frame[use_frame],22,counter,picture->m_side[i][j].r,picture->m_side[i][j].g,picture->m_side[i][j].b);	//Left Rainbow Drawing
+			ledscape_set_color(frame[use_frame],22,counter,picture->m_side[j][sideHeight - 1 - i].r,picture->m_side[j][sideHeight - 1 - i].g,picture->m_side[j][sideHeight - 1 - i].b);	//Left Rainbow Drawing
 
-			ledscape_set_color(frame[use_frame],10,counter,picture->m_side[i][j].r,picture->m_side[i][j].g,picture->m_side[i][j].b);	//Right Rainbow Drawing
+			ledscape_set_color(frame[use_frame],10,counter,picture->m_side[j][sideHeight - 1 - i].r,picture->m_side[j][sideHeight - 1 - i].g,picture->m_side[j][sideHeight - 1 - i].b);	//Right Rainbow Drawing
 
 			counter++;
 
@@ -33,7 +43,7 @@ void draw(const Frame* picture) {
 
 				if(i == 1) {
 
-					ledscape_set_color(frame[use_frame],11,counter,picture->m_face[mainLength - 1 - i][j].r,picture->m_face[mainLength - 1 - i][j].g,picture->m_face[mainLength - 1 - i][j].b);	//Left Drawing
+					ledscape_set_color(frame[use_frame],11,counter,picture->m_face[i][j].r,picture->m_face[i][j].g,picture->m_face[i][j].b);	//Left Drawing
 				}	
 
 				else {
@@ -66,7 +76,9 @@ void draw(const Frame* picture) {
 
 	ledscape_draw(leds, use_frame);
 	use_frame = (use_frame + 1)%2;
-	usleep(200000);	//Come back, make this class dependant;
+	printf("BEFORE %d\n", picture->delay);
+	if (picture->delay > 0) usleep(picture->delay);
+	printf("AFTER\n");	
 
 	return;
 }
@@ -77,30 +89,85 @@ int main(void) {
 	frame[1] = ledscape_frame(leds, 1);
 	int nextAnimation;
 
-	Animation* drawing = new Smiley();
+	Animation* new_drawing = new Smiley();
 
-	while(1) {
+	BeagleBone::kbdio::echo(0);
 
-		draw(drawing->getNextFrame());
+	Animation* drawing = NULL;
+	const Frame *frame;
+	bool quit = 0;
+	while(!quit) {
+		if (drawing != new_drawing) {
+			delete drawing;
+			drawing = new_drawing;
+			frame = drawing->getNextFrame();
+			draw(frame);
+		} else if (frame->delay > 0) {
+			frame = drawing->getNextFrame();
+			draw(frame);
+		}
 		
 		if(BeagleBone::kbdio::kbhit() > 0) {
 
 			nextAnimation = BeagleBone::kbdio::getch();
-			delete drawing;	//De-allocate previous animationi
 
 			//Keyboard Mapping
 
-			if(nextAnimation == 's') {
-
-				drawing = new Smiley();
-
-			}
-
-			if(nextAnimation == 'q') {
-
+			switch (nextAnimation) {
+			case 's':
+				new_drawing = new Smiley();
+				break;
+			case 'q':
+				new_drawing = new Blank();
+				break;
+			
+			case 'd':
+			case 'f':
+				new_drawing = new FullColor();
 				break;
 
+			case 'w':
+				new_drawing = new ColorSquare();
+				break;
+
+			case 'W':
+				new_drawing = new ColorSquareRapid();
+				break;
+
+			case 'e':
+				new_drawing = new Scanner();
+				break;
+
+			case 'r':
+				new_drawing = new Pinwheel();
+				break;
+			
+			case 't':
+				new_drawing = new Upvote();
+				break;
+
+			case 'z':
+				new_drawing = new Stars();
+				break;
+
+			case 'x':
+				new_drawing = new RainbowWheel();
+				break;
+
+			case 'p':
+				new_drawing = new StringScroll("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?+ ");
+				break;	
+			
+			case 'l':	
+				new_drawing = new GoCountDown();
+				break;
+
+			case 'Q':
+				quit = 1;
+				break;
 			}
 		}	
 	}
+
+	BeagleBone::kbdio::echo(1);
 }

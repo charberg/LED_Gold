@@ -22,6 +22,7 @@ else
 #
 # sudo apt-get install gcc-arm-linux-gnueabi
 #
+#
 export CROSS_COMPILE?=arm-linux-gnueabi-
 endif
 
@@ -48,7 +49,7 @@ LDLIBS += \
 	  -lbone \
 	  -lpthread \
 
-COMPILE.cpp = $(CROSS_COMPILE)g++ $(CFLAGS) -std=c++11 -c -o $@ $<
+COMPILE.cpp = $(CROSS_COMPILE)g++ $(CFLAGS) -c -o $@ $<
 COMPILE.o = $(CROSS_COMPILE)gcc -std=c99 $(CFLAGS) -c -o $@ $<
 COMPILE.a = ar cr $@
 COMPILE.link = $(CROSS_COMPILE)gcc $(LDFLAGS) -o $@ $^ $(LDLIBS)
@@ -97,7 +98,7 @@ rgb-test:
 helmet:
 	g++ -o $@ $< $(LDFLAGS) -ledscape $(LDLIBS)
 
-SHOWTIMEOBJS = showtime.o helmet_draw.o smiley.o
+SHOWTIMEOBJS = showtime.o helmet_draw.o frame.o animation.o smiley.o blank.o fullColor.o colorSquare.o colorSquareRapid.o scanner.o pinwheel.o upvote.o stars.o rainbowWheel.o stringScroll.o goCountDown.o
 showtime: $(SHOWTIMEOBJS) $(LEDSCAPE_LIB)
 	g++ -o $@ $(LDFLAGS) $(SHOWTIMEOBJS) -ledscape $(LDLIBS)
 

@@ -8,8 +8,6 @@
 
 FullColor::FullColor() {
 
-	std::srand(std::time(0));	//Seed the RNG
-
 	red = std::rand() % 256;	//Generates number 0-255
 	blue = std::rand() % 256;	//Note that 0 is twice as common
 	green = std::rand() % 256;	//Should fix later..
@@ -29,12 +27,6 @@ FullColor::FullColor() {
 		picture_1.m_side[i][6].b = 255;	
 	}
 
-	picture_1.delay = 10000;
-
-}
-
-const Frame* FullColor::getNextFrame() {
-
 	for(int i = 0; i < mainLength; i++) {
 		for(int j = 0; j < mainHeight; j++) {
 
@@ -44,6 +36,12 @@ const Frame* FullColor::getNextFrame() {
 
 		}
 	}
+
+	picture_1.delay = 0;
+
+}
+
+const Frame* FullColor::getNextFrame() {
 
 	return &picture_1;
 
