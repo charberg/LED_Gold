@@ -98,7 +98,7 @@ rgb-test:
 helmet:
 	g++ -o $@ $< $(LDFLAGS) -ledscape $(LDLIBS)
 
-SHOWTIMEOBJS = showtime.o helmet_draw.o frame.o animation.o smiley.o blank.o fullColor.o colorSquare.o colorSquareRapid.o scanner.o pinwheel.o upvote.o stars.o rainbowWheel.o stringScroll.o goCountDown.o
+SHOWTIMEOBJS = showtime.o helmet_draw.o frame.o animation.o smiley.o blank.o fullColor.o colorSquare.o colorSquareRapid.o scanner.o pinwheel.o upvote.o stars.o rainbowWheel.o stringScroll.o shootingStars.o rainbowRoad.o
 showtime: $(SHOWTIMEOBJS) $(LEDSCAPE_LIB)
 	g++ -o $@ $(LDFLAGS) $(SHOWTIMEOBJS) -ledscape $(LDLIBS)
 

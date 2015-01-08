@@ -12,7 +12,8 @@
 #include "stars.hpp"
 #include "rainbowWheel.hpp"
 #include "stringScroll.hpp"
-#include "goCountDown.hpp"
+#include "shootingStars.hpp"
+#include "rainbowRoad.hpp"
 
 static unsigned int use_frame = 0;
 static ledscape_frame_t *frame[2];
@@ -150,16 +151,24 @@ int main(void) {
 				new_drawing = new Stars();
 				break;
 
+			case 'Z':
+				new_drawing = new ShootingStars();
+				break;
+
 			case 'x':
 				new_drawing = new RainbowWheel();
 				break;
 
+			case 'X':
+			       	new_drawing = new RainbowRoad();
+				break;
+
 			case 'p':
-				new_drawing = new StringScroll("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?+ ");
+				new_drawing = new StringScroll("SPACE ROCKS");
 				break;	
-			
-			case 'l':	
-				new_drawing = new GoCountDown();
+		
+			case 'l':
+				new_drawing = new StringScroll("CULT");
 				break;
 
 			case 'Q':
